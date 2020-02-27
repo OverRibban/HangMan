@@ -22,8 +22,9 @@ namespace HangMan
     {
         List<String> hiddenWord = new List<string>();
         List<String> guessedWord = new List<string>();
+        List<String> incorrectChars = new List<string>();
         string guessedChar;
-        string hiddenChar;
+        int triesLeft = 8;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,35 +34,69 @@ namespace HangMan
         {
             if (e.Key == Key.Return)
             {
-                guessedChar = GuessWordXAML.Text;
-                if(guessedChar.All(char.IsDigit))
+                if (triesLeft > 0)
                 {
-                    return;
-                }
-                else
-                {
-                    int i = 0;
-                    foreach(string ch in hiddenWord)
+                    guessedChar = GuessWordXAML.Text.ToUpper();
+                    if (guessedChar.All(char.IsDigit))
                     {
-                        if(ch == guessedChar)
+                        return;
+                    }
+                    else
+                    {
+                        bool correctWord = false;
+                        int i = 0;
+                        foreach (string ch in hiddenWord)
                         {
-                            guessedWord[i] = guessedChar;
+                            if (ch == guessedChar)
+                            {
+                                guessedWord[i] = guessedChar.ToUpper();
+                                correctWord = true;
+                            }
+                            i++;
                         }
+                        if (correctWord == false)
+                        {
+                            triesLeft--;
+                            TriesLeft.Text = "Tries Left: " + triesLeft.ToString();
+                            incorrectChars.Add(guessedChar);
+                            tBlIncorrectChars.Text = string.Join("", incorrectChars);
 
-                        i++;
+                        }
+                        HiddenWordXAML.Text = HiddenWordXAML.Text = string.Join("", guessedWord);
                     }
                 }
 
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void GuessWordXAML_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                hiddenWord.Clear();
+
+                foreach (char ch in EnterWordXAML.Text)
+                {
+                    hiddenWord.Add(ch.ToString().ToUpper());
+                    guessedWord.Add("_");
+                }
+                HiddenWordXAML.Text = string.Join("", guessedWord);
+                EnterWordXAML.IsEnabled = false;
+            }
+        }
+        private void RestartGame(object sender, RoutedEventArgs e)
         {
             hiddenWord.Clear();
-            foreach (char ch in EnterWordXAML.Text)
-            {
-                hiddenWord.Add(ch.ToString());
-            }
+            guessedWord.Clear();
+            incorrectChars.Clear();
+            triesLeft = 8;
+            GuessWordXAML.Text = "";
+            HiddenWordXAML.Text = "";
+            EnterWordXAML.Text = "";
+            TriesLeft.Text = "Tries Left: 8";
+            tBlIncorrectChars.Text = "";
+            tblGameStatus.Text = "";
+            EnterWordXAML.IsEnabled = true;
         }
     }
 }

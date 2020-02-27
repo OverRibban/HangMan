@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -54,14 +55,21 @@
         </Grid>
         <StackPanel Grid.Row="2">
             <Label>Enter Word</Label>
-            <TextBox x:Name="EnterWordXAML" KeyDown="TextBox_KeyDown" TextChanged="TextBox_TextChanged"></TextBox>
+            <TextBox x:Name="EnterWordXAML" KeyDown="GuessWordXAML_KeyDown"/>
         </StackPanel>
-        <StackPanel x:Name="HiddenWordXAML"  Grid.Row="3" Margin="40">
-            <TextBox Height="60"></TextBox>
+        <StackPanel  Grid.Row="3" Margin="20">
+
+            <TextBox FontSize="30" x:Name="HiddenWordXAML" Height="60"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="4">
             <Label>Guess Word</Label>
-            <TextBox x:Name="GuessWordXAML" MaxLength="1"></TextBox>
+            <TextBox x:Name="GuessWordXAML" MaxLength="1" KeyDown="TextBox_KeyDown"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="5">
+            <TextBlock x:Name="TriesLeft">Tries Left: 8</TextBlock>
+            <TextBlock x:Name="tBlIncorrectChars"></TextBlock>
+            <Button Click="RestartGame">Reset Game</Button>
+            <TextBlock x:Name="tblGameStatus"></TextBlock>
         </StackPanel>
     </Grid>
 
