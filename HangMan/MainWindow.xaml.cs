@@ -20,21 +20,23 @@ namespace HangMan
     /// </summary>
     public partial class MainWindow : Window
     {
+        Player playerHost = new Player();
+        GuestPlayer playerGuest = new GuestPlayer();
         List<String> hiddenWord = new List<string>();
         List<String> guessedWord = new List<string>();
         List<String> incorrectChars = new List<string>();
         string guessedChar;
-        int triesLeft = 8;
         public MainWindow()
         {
             InitializeComponent();
+            playerGuest.SetTries(8);
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                if (triesLeft > 0)
+                if (playerGuest.GetTries() > 0)
                 {
                     guessedChar = GuessWordXAML.Text.ToUpper();
                     if (guessedChar.All(char.IsDigit))
@@ -56,8 +58,8 @@ namespace HangMan
                         }
                         if (correctWord == false)
                         {
-                            triesLeft--;
-                            TriesLeft.Text = "Tries Left: " + triesLeft.ToString();
+                            playerGuest.SetTries(playerGuest.GetTries() - 1);
+                            TriesLeft.Text = "Tries Left: " + playerGuest.GetTries().ToString();
                             incorrectChars.Add(guessedChar);
                             tBlIncorrectChars.Text = string.Join("", incorrectChars);
 
@@ -89,7 +91,7 @@ namespace HangMan
             hiddenWord.Clear();
             guessedWord.Clear();
             incorrectChars.Clear();
-            triesLeft = 8;
+            playerGuest.SetTries(8);
             GuessWordXAML.Text = "";
             HiddenWordXAML.Text = "";
             EnterWordXAML.Text = "";
