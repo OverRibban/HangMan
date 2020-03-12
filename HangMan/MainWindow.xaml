@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HangMan"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="525" Width="800">
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,16 +22,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <Label>IP-Adress</Label>
-                <TextBox></TextBox>
+                <Label >IP-Adress</Label>
+                <TextBox x:Name="tbIPUser"></TextBox>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label>Port</Label>
-                <TextBox></TextBox>
+                <TextBox x:Name="tbPortUser"></TextBox>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Label>Connect</Label>
-                <Button>Connect</Button>
+                <Button Click="Button_Click_1">Connect</Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -42,15 +42,15 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <Label>IP-Adress</Label>
-                <TextBox></TextBox>
+                <TextBox x:Name="tbIPHost"></TextBox>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label>Port</Label>
-                <TextBox></TextBox>
+                <TextBox x:Name="tbPortHost"></TextBox>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Label>Start</Label>
-                <Button>Start</Button>
+                <Button Click="Button_Click">Start</Button>
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="2">
@@ -70,6 +70,8 @@
             <TextBlock x:Name="tBlIncorrectChars"></TextBlock>
             <Button Click="RestartGame">Reset Game</Button>
             <TextBlock x:Name="tblGameStatus"></TextBlock>
+            <TextBlock MinHeight="20" x:Name="tblStatus"></TextBlock>
+
         </StackPanel>
     </Grid>
 
