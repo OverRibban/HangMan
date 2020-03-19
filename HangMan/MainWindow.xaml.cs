@@ -145,7 +145,67 @@ namespace HangMan
         }
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            TextBoxKey(e.Key.ToString());
+            ////TextBoxKey(e.Key.ToString());
+            if (e.Key == Key.Return)
+            {
+                if (playerGuest.GetTries() > 0)
+                {
+                    guessedChar = GuessWordXAML.Text.ToUpper();
+                    if (guessedChar.All(char.IsDigit))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        bool correctWord = false;
+                        int j = 0;
+                        foreach (string ch in hiddenWord)
+                        {
+                            if (ch == guessedChar)
+                            {
+                                guessedWord[j] = guessedChar.ToUpper();
+                                correctWord = true;
+                            }
+                            j++;
+                        }
+                        if (correctWord == false)
+                        {
+                            playerGuest.SetTries(playerGuest.GetTries() - 1);
+                            TriesLeft.Text = "Tries Left: " + playerGuest.GetTries().ToString();
+                            incorrectChars.Add(guessedChar);
+                            tBlIncorrectChars.Text = string.Join("", incorrectChars);
+
+                        }
+                        HiddenWordXAML.Text = HiddenWordXAML.Text = string.Join("", guessedWord);
+                    }
+                    if (playerGuest.GetTries() == 0)
+                    {
+                        playerGuest.AddParticipatedGame();
+                        playerHost.AddWin();
+                        playerHost.AddParticipatedGame();
+                        RestartGame();
+                    }
+                    correctWord = false;
+                    int i = 0;
+                    if(string.Join("", hiddenWord).CompareTo(string.Join("", guessedWord)) == 0) {
+                        correctWord = true;
+                    }
+                    if (correctWord == true)
+                    {
+                        playerGuest.AddParticipatedGame();
+                        playerGuest.AddWin();
+                        playerHost.AddParticipatedGame();
+                    }
+                    else
+                    {
+                        playerHost.AddParticipatedGame();
+                        playerHost.AddWin();
+                        playerGuest.AddParticipatedGame();
+                    }
+                }
+                worker2.RunWorkerAsync();
+            }
+
         }
 
         private void GuessWordXAML_KeyDown(object sender, KeyEventArgs e)
