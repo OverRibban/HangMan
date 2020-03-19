@@ -27,7 +27,7 @@ namespace HangMan
         private TcpClient client;
         public StreamReader STR;
         public StreamWriter STW;
-        public string recieve;
+        private bool correctWord;
         Player playerHost = new Player();
         GuestPlayer playerGuest = new GuestPlayer();
         List<String> hiddenWord = new List<string>();
@@ -50,7 +50,6 @@ namespace HangMan
             {
                 try
                 {
-                    recieve = STR.ReadLine();
                 }
                 catch (Exception ex)
                 {
@@ -63,6 +62,7 @@ namespace HangMan
         {
             if (client.Connected)
             {
+                MessageBox.Show("Hello");
             }
             else
             {
@@ -72,9 +72,9 @@ namespace HangMan
 
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void TextBoxKey(string key)
         {
-            if (e.Key == Key.Return)
+            if (key.CompareTo(Key.Return.ToString()) == 0)
             {
                 if (playerGuest.GetTries() > 0)
                 {
@@ -86,15 +86,15 @@ namespace HangMan
                     else
                     {
                         bool correctWord = false;
-                        int i = 0;
+                        int j = 0;
                         foreach (string ch in hiddenWord)
                         {
                             if (ch == guessedChar)
                             {
-                                guessedWord[i] = guessedChar.ToUpper();
+                                guessedWord[j] = guessedChar.ToUpper();
                                 correctWord = true;
                             }
-                            i++;
+                            j++;
                         }
                         if (correctWord == false)
                         {
@@ -106,10 +106,46 @@ namespace HangMan
                         }
                         HiddenWordXAML.Text = HiddenWordXAML.Text = string.Join("", guessedWord);
                     }
+                    if (playerGuest.GetTries() == 0)
+                    {
+                        playerGuest.AddParticipatedGame();
+                        playerHost.AddWin();
+                        playerHost.AddParticipatedGame();
+                        RestartGame();
+                    }
+                    correctWord = true;
+                    int i = 0;
+                    while (correctWord == true)
+                    {
+                        if (hiddenWord[i] == guessedWord[i])
+                        {
+                            correctWord = true;
+                        }
+                        else
+                        {
+                            correctWord = false;
+                        }
+                    }
+                    if (correctWord == true)
+                    {
+                        playerGuest.AddParticipatedGame();
+                        playerGuest.AddWin();
+                        playerHost.AddParticipatedGame();
+                    }
+                    else
+                    {
+                        playerHost.AddParticipatedGame();
+                        playerHost.AddWin();
+                        playerGuest.AddParticipatedGame();
+                    }
                 }
 
             }
             worker2.RunWorkerAsync();
+        }
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            TextBoxKey(e.Key.ToString());
         }
 
         private void GuessWordXAML_KeyDown(object sender, KeyEventArgs e)
@@ -125,10 +161,11 @@ namespace HangMan
                 }
                 HiddenWordXAML.Text = string.Join("", guessedWord);
                 EnterWordXAML.IsEnabled = false;
+                worker2.RunWorkerAsync();
+                worker2.WorkerSupportsCancellation = true;
             }
-            worker2.RunWorkerAsync();
         }
-        private void RestartGame(object sender, RoutedEventArgs e)
+        private void RestartGame()
         {
             hiddenWord.Clear();
             guessedWord.Clear();
@@ -188,6 +225,11 @@ namespace HangMan
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            RestartGame();
         }
     }
 }

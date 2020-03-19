@@ -68,7 +68,7 @@
         <StackPanel Grid.Row="5">
             <TextBlock x:Name="TriesLeft">Tries Left: 8</TextBlock>
             <TextBlock x:Name="tBlIncorrectChars"></TextBlock>
-            <Button Click="RestartGame">Reset Game</Button>
+            <Button Click="Button_Click_2">Reset Game</Button>
             <TextBlock x:Name="tblGameStatus"></TextBlock>
             <TextBlock MinHeight="20" x:Name="tblStatus"></TextBlock>
 
