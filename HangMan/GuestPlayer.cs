@@ -8,14 +8,14 @@ namespace HangMan
 {
     class GuestPlayer : Player
     {
-        private int triesLeft;
+        private int triesLeft; 
         public void SetTries(int amount)
         {
-            triesLeft = amount;
+            triesLeft = amount; //set tries amount for gues player
         }
         public int GetTries()
         {
-            return triesLeft;
+            return triesLeft; //return tries amount for gues player
         }
     }
 }

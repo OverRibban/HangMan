@@ -31,7 +31,7 @@
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Label>Connect</Label>
-                <Button Click="Button_Click_1">Connect</Button>
+                <Button Click="ConnectButton_Click">Connect</Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -50,25 +50,24 @@
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Label>Start</Label>
-                <Button Click="Button_Click">Start</Button>
+                <Button Click="StartButton_Click">Start</Button>
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="2">
             <Label>Enter Word</Label>
-            <TextBox x:Name="EnterWordXAML" KeyDown="GuessWordXAML_KeyDown"/>
+            <TextBox x:Name="tBEnterWord" KeyDown="EnterWord_KeyDown"/>
         </StackPanel>
         <StackPanel  Grid.Row="3" Margin="20">
 
-            <TextBox FontSize="30" x:Name="HiddenWordXAML" Height="60"></TextBox>
+            <TextBox FontSize="30" x:Name="tBHiddenWord" Height="60"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="4">
             <Label>Guess Word</Label>
-            <TextBox x:Name="GuessWordXAML" MaxLength="1" KeyDown="TextBox_KeyDown"></TextBox>
+            <TextBox x:Name="tBGuessWord" MaxLength="1" KeyDown="GuessWord_KeyDown"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="5">
             <TextBlock x:Name="TriesLeft">Tries Left: 8</TextBlock>
             <TextBlock x:Name="tBlIncorrectChars"></TextBlock>
-            <Button Click="Button_Click_2">Reset Game</Button>
             <TextBlock x:Name="tblGameStatus"></TextBlock>
             <TextBlock MinHeight="20" x:Name="tblStatus"></TextBlock>
 
